@@ -1,0 +1,69 @@
+/* Estilos para el mapa */
+#directions-panel {
+    width: 100%;
+    overflow: auto;
+}
+.transformable {
+    -webkit-transition: height 100ms linear;
+    -moz-transition: height 100ms linear;
+    -o-transition: height 100ms linear;
+    -ms-transition: height 100ms linear;
+    transition: height 100ms linear;
+
+}
+.panelGrande {
+    height: 20%;
+}
+.panelChico {
+    height: 5%;
+}
+.mapaGrande {
+    height: 95%;
+}
+.mapaChico {
+    height: 80%;
+}
+/* Estilos para el menú principal */
+.platform-android ion-item i,
+.platform-ios ion-item i,
+.platform-windowsphone ion-item i {
+    font-size: 1.5em;
+    display: block;
+    float: left;
+    width: 1.5em;
+    margin-right: 0.75em;
+    text-align: center;
+    font-family: "Ionicons";
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+.platform-android .mybox-inicio:before {
+    content: '\f38f';
+}
+.platform-ios .mybox-inicio:before {
+    content: '\f447';
+}
+.platform-android .mybox-mapa:before {
+    content: '\f1ff';
+}
+.platform-ios .mybox-mapa:before {
+    content: '\f455';
+}
+.platform-android .mybox-rastreo:before {
+    content: '\f2f5';
+}
+.platform-ios .mybox-rastreo:before {
+    content: '\f4a5';
+}
+.platform-android .mybox-recoger:before {
+    content: '\f3ec';
+}
+.platform-ios .mybox-recoger:before {
+    content: '\f3eb';
+}

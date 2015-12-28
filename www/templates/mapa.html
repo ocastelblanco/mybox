@@ -1,0 +1,37 @@
+<ion-view view-title="Mapa">
+    <ion-content ng-controller="mapa as vm">
+        <ng-map center="current-location"
+                ng-class="{'mapaGrande': !conPanel, 'mapaChico': conPanel}">
+            <marker id="actual"
+                    position="current-location"
+                    title="Posición actual"
+                    animation="Animation.DROP">
+            </marker>
+            <marker ng-repeat="punto in vm.puntos"
+                    position="{{punto.pos}}"
+                    id="{{punto.id}}"
+                    on-click="vm.abreVentana(punto)"
+                    title="Nombre: {{punto.nombre}}"
+                    icon="{{vm.iconoBox}}">
+            </marker>
+            <!--info-window id="ventanaActual"
+                         visible-on-marker="actual">
+                <div ng-non-bindable>
+                    Usted está aquí
+                </div>
+            </info-window-->
+            <info-window id="ventanaPunto">
+                <div ng-non-bindable>
+                    Nombre: {{vm.punto.nombre}}<br/>
+                    Dirección: {{vm.punto.direccion}}<br/>
+                    <a href="#" ng-click="vm.llegar()">Llegar aquí</a>
+                </div>
+            </info-window>
+        </ng-map>
+        <div id="directions-panel"
+             ng-class="{'panelGrande': conPanel, 'panelChico': !conPanel}"
+             ng-click="conPanel = !conPanel">
+            Panel
+        </div>
+    </ion-content>
+</ion-view>
