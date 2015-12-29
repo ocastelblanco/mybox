@@ -8,7 +8,16 @@ angular.module('starter.controllers', [])
         vm.map = map;
         //console.log('map', vm.map);
         vm.directionsDisplay.setMap(vm.map);
+        vm.directionsDisplay.setPanel(document.getElementById('directions-panel'));
         vm.actual = vm.map.markers.actual.position;
+        vm.puntos.forEach(function(elem){
+            var marker = vm.map.markers[elem.id];
+            google.maps.event.addListener(marker, "mousedown", function() {
+                console.log('marker', marker);
+                console.log('elem.pos', elem.pos);
+                vm.abreVentana(elem, elem);
+            });
+        });
         var pos;
         if (vm.actual === undefined) {
             vm.actual = noGeo();
@@ -38,6 +47,7 @@ angular.module('starter.controllers', [])
     ];
     vm.punto = vm.puntos[0];
     vm.abreVentana = function(e, punto) {
+        console.log(punto.pos);
         vm.punto = punto;
         var destino = vm.punto.pos[0] + ', ' + vm.punto.pos[1];
         vm.map.showInfoWindow('ventanaPunto', vm.punto.id);
@@ -47,7 +57,7 @@ angular.module('starter.controllers', [])
           optimizeWaypoints: true,
           travelMode: google.maps.TravelMode.DRIVING
         };
-        console.log(vm.dirRequest);
+        console.log('vm.dirRequest', vm.dirRequest);
     };
     vm.llegar = function() {
         vm.directionsService.route(vm.dirRequest, function(response, status) {

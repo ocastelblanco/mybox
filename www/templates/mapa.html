@@ -11,6 +11,7 @@
                     position="{{punto.pos}}"
                     id="{{punto.id}}"
                     on-click="vm.abreVentana(punto)"
+                    on-tap="vm.abreVentana(punto)"
                     title="Nombre: {{punto.nombre}}"
                     icon="{{vm.iconoBox}}">
             </marker>
@@ -31,7 +32,10 @@
         <div id="directions-panel"
              ng-class="{'panelGrande': conPanel, 'panelChico': !conPanel}"
              ng-click="conPanel = !conPanel">
-            Panel
+            <span class="directions-panel-left">¿Cómo llegar?</span>
+            <span class="directions-panel-right">
+                <span ng-class="{'chevronAbajo': conPanel, 'chevronArriba': !conPanel}"></span>
+            </span>
         </div>
     </ion-content>
 </ion-view>

@@ -4,15 +4,14 @@
     overflow: auto;
 }
 .transformable {
-    -webkit-transition: height 100ms linear;
-    -moz-transition: height 100ms linear;
-    -o-transition: height 100ms linear;
-    -ms-transition: height 100ms linear;
-    transition: height 100ms linear;
-
+    -webkit-transition: height 100ms ease-in-out;
+    -moz-transition: height 100ms ease-in-out;
+    -o-transition: height 100ms ease-in-out;
+    -ms-transition: height 100ms ease-in-out;
+    transition: height 100ms ease-in-out;
 }
 .panelGrande {
-    height: 20%;
+    height: 40%;
 }
 .panelChico {
     height: 5%;
@@ -21,9 +20,29 @@
     height: 95%;
 }
 .mapaChico {
-    height: 80%;
+    height: 60%;
 }
-/* Estilos para el menú principal */
+.directions-panel-left {
+    display: block;
+    float: left;
+    width: 90%;
+    text-align: left;
+}
+.directions-panel-right {
+    display: block;
+    float: right;
+    width: 10%;
+    text-align: right;
+    font-family: "Ionicons";
+    font-size: 1.2em;
+}
+.chevronArriba:before {
+    content: '\f126';
+}
+.chevronAbajo:before {
+    content: '\f123';
+}
+/* Estilos para el menú */
 .platform-android ion-item i,
 .platform-ios ion-item i,
 .platform-windowsphone ion-item i {
