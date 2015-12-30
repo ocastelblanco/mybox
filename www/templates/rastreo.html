@@ -1,5 +1,17 @@
 <ion-view view-title="Rastreo">
-  <ion-content>
-    <h1>Rastreo</h1>
-  </ion-content>
+    <ion-content ng-controller="rastreoCtrl">       
+        <form ng-submit="rastrea()">
+            <div class="list">
+                <label class="item">
+                    <h2 class="title">Ingrese la información solicitada</h2>
+                </label>
+                <label class="item item-input">
+                    <input type="tel" placeholder="Número de identificación" ng-model="datoRastreo.identificacion">
+                </label>
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit">Rastrear paquete</button>
+                </label>
+            </div>
+        </form>
+    </ion-content>
 </ion-view>

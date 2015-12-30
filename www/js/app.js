@@ -4,7 +4,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
 // 'ngMap' es un requerimiento para el ng-map de https://github.com/allenhwkim/angularjs-google-maps
-angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'ngMap'])
+// 'ngMaterial es un requerimiento para Material Design para Angular, según https://material.angularjs.org/latest/getting-started
+angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 'ngMap', 'ngMaterial'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {

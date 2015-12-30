@@ -1,3 +1,8 @@
+/* Estilos para listados inset */
+.list.list-inset .item {
+    text-overflow: inherit;
+    white-space: normal;
+}
 /* Estilos para el mapa */
 #directions-panel {
     width: 100%;
@@ -26,15 +31,21 @@
     display: block;
     float: left;
     width: 90%;
-    text-align: left;
+    text-align: right;
+    background-color: rgba(178, 178, 178, .25);
+    padding-bottom: 0.5em;
+    padding-top: 0.2em;
 }
 .directions-panel-right {
     display: block;
     float: right;
     width: 10%;
-    text-align: right;
+    text-align: center;
     font-family: "Ionicons";
     font-size: 1.2em;
+    background-color: rgba(178, 178, 178, .25);
+    padding-top: 0.2em;
+    padding-bottom: 0.5em;
 }
 .chevronArriba:before {
     content: '\f126';
