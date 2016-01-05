@@ -101,6 +101,125 @@ angular.module('starter.controllers', [])
     };
 
 })
+.factory('ServicioBuscaCiudades', function($q, $timeout) {
+    var BuscaCiudades = function(searchFilter) {
+        var deferred = $q.defer();
+	    var matches = ciudades.filter(function(ciudad) {
+	    	if (ciudad.nombre.toLowerCase().indexOf(searchFilter.toLowerCase()) !== -1) {
+                return true;
+            }
+	    });
+        $timeout(function() {
+           deferred.resolve(matches);
+        }, 100);
+        return deferred.promise;
+    };
+    return {BuscaCiudades : BuscaCiudades};
+})
+.controller('cotizarCtrl', function($scope, ServicioBuscaCiudades, $http, $ionicLoading, $ionicModal, $timeout, $filter) {
+    $scope.ciudadOrigen = '';
+    // Usando parte de http://codepen.io/calendee/pen/pCwyx para el autocomplete
+    $scope.municipios = {};
+    $scope.datoCiudades = {"ciudades" : [], "buscar" : '' }; // Para las ciudades origen
+    $scope.datoCiudadesDestino = {"ciudades" : [], "buscar" : '' };
+    $scope.numUnidades = [];
+    $scope.numKilos = [];
+    $scope.numCms = [];
+    // El archivo municipios.json está local, pero si hay algún problema cargándolo, se hace un Loading
+    $ionicLoading.show({
+        template: '<ion-spinner></ion-spinner><h2>Cargando listado de ciudades...</h2>'
+    });
+    $http.get('js/municipios.json').then(function(res){
+        $ionicLoading.hide();
+        // Carga de ciudades de Colombia
+        $scope.municipios = res.data.Colombia; // El listado es de solo Colombia, pero el objeto inicial es Colombia
+        ciudades = [];
+        for (var index in $scope.municipios) {
+            var depto = $scope.municipios[index];
+            depto.forEach(function(mun){
+                ciudades.push({'nombre' : mun, 'departamento' : index});
+            });
+        }
+        ciudades = ciudades.sort(function(a, b) {
+            var ciudadA = a.nombre.toLowerCase();
+            var ciudadB = b.nombre.toLowerCase();
+            if (ciudadA > ciudadB) return 1;
+            if (ciudadA < ciudadB) return -1;
+            return 0;
+        });
+        $scope.buscarCiudades = function() {
+            ServicioBuscaCiudades.BuscaCiudades($scope.datoCiudades.buscar).then(
+                function(matches) {
+                    $scope.datoCiudades.ciudades = matches;
+                }
+            );
+        };
+        $scope.buscarCiudadesDestino = function() {
+            ServicioBuscaCiudades.BuscaCiudades($scope.datoCiudadesDestino.buscar).then(
+                function(matches) {
+                    $scope.datoCiudadesDestino.ciudades = matches;
+                }
+            );
+        };
+        $scope.iniciaBuscaOrigen = function() {
+            $scope.datoCiudadesDestino.ciudades = [];
+        };
+        $scope.iniciaBuscaDestino = function() {
+            $scope.datoCiudades.ciudades = [];
+        };
+        $scope.seleccionaOrigen = function(ciudad){
+            $scope.datoCiudades.buscar = ciudad.nombre;
+            $scope.datoCiudades.ciudades = [];
+            $scope.ciudadOrigen = {'nombre' : ciudad.nombre, 'departamento' : ciudad.departamento};
+        };
+        $scope.seleccionaDestino = function(ciudad){
+            $scope.datoCiudadesDestino.buscar = ciudad.nombre;
+            $scope.datoCiudadesDestino.ciudades = [];
+            $scope.ciudadDestino = {'nombre' : ciudad.nombre, 'departamento' : ciudad.departamento};
+        };
+    });
+    for (var i = 1; i < 11; i++) {
+        $scope.numUnidades.push(i);
+    }
+    for (i = 0.5; i < 50.5; i = i + 0.5) {
+        $scope.numKilos.push(i);
+    }
+    for (i = 10; i < 110; i = i + 10) {
+        $scope.numCms.push(i);
+    }
+    // Crea la resCotiza modal
+    $ionicModal.fromTemplateUrl('templates/resultadoCotiza.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.resCotiza = modal;
+    });
+    // Se activa cuando se cierra la modal de cotización
+    $scope.cierraCotiza = function() {
+        $scope.resCotiza.hide();
+    };
+    $scope.cotiza = function() {
+        // Los datos finales son: $scope.ciudadOrigen, $scope.ciudadDestino,
+        // $scope.cantidad, $scope.peso, $scope.alto, $scope.ancho, $scope.profundo, $scope.mercancia
+        $ionicLoading.show({
+            template: '<ion-spinner></ion-spinner>'
+        });
+        // Luego de un segundo, aparece la ventana con info de la cotización
+        $timeout(function(){
+            $ionicLoading.hide();
+            $scope.valorCotiza = 56000;
+            $scope.resCotiza.show();
+        }, 1000);
+    };
+    // Aproxima los valores y les da formato
+    $scope.fijaValor = function(){
+        $scope.mercancia = $scope.valor;
+        $scope.valor = $filter('currency')($scope.valor, '$', 0);
+        //$scope.valor = $scope.valor + '000';
+    };
+    $scope.cambiaValor = function(){
+        $scope.valor = $scope.mercancia;
+    };
+})
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
     // With the new view caching in Ionic, Controllers are only called
@@ -151,6 +270,8 @@ angular.module('starter.controllers', [])
 .controller('PlaylistCtrl', function($scope, $stateParams) {
 });
 // Funciones genéricas de cálculo y obtención de resultados
+//
+    var ciudades = [{'nombre' : 'Bogotá', 'departamento' : 'Bogotá'}, {'nombre' : 'Medellín' , 'departamento' : 'Antioquia'}];
 // Adaptada de http://stackoverflow.com/questions/4057665/google-maps-api-v3-find-nearest-markers
 function rad(x) {
     return x*Math.PI/180;

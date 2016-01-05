@@ -1,0 +1,20 @@
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Resultado de la cotización</h1>
+        <div class="buttons">
+            <button class="button button-clear" ng-click="cierraCotiza()">
+                <i class="icon ion-close"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="list list-inset">
+            <div class="item">
+                Valor: {{valorCotiza | currency : "COP$" : 0}}
+            </div>
+            <div class="item">
+                Tiempo de envío: 3 días (aprox.)
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>
