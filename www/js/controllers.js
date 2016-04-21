@@ -1,5 +1,11 @@
 angular.module('starter.controllers', [])
 
+.controller('inicio', function($scope) {
+    if (ionic.Platform.isAndroid()) {
+        $scope.materialCSS = "css/ionic.material.min.css";
+        $scope.materialJS = "js/ionic.material.min.js";
+    }
+})
 .controller('mapa', function(NgMap, $scope) {
     var vm = this;
     vm.directionsDisplay = new google.maps.DirectionsRenderer();
